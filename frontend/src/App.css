@@ -174,3 +174,17 @@
 .success {
   color: green;
 }
+
+.homepage-title {
+  color: #F5F5F5;; /* Change "Homepage" text to white */
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.contact-title {
+  color: #F5F5F5;;
+}
+
+.product-details {
+  color: white;
+}

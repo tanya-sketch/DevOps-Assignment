@@ -4,11 +4,11 @@ import Context from './components/Context'
 
 function App() {
   const userInfo = {
-    name: "Johnny",
-    email: "codrkai@gamil.com",
+    name: "Tanya",
+    email: "taanyasingh@gamil.com",
     loggedIn: true,
     cartItems: 4
-  }
+  }//
 
   return (
     <>

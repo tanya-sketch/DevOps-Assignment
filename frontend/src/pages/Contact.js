@@ -84,7 +84,7 @@ function Contact() {
 
     return (
         <>
-            <h1>Contact Us</h1>
+            <h1 className="contact-title">Contact Us</h1>
 
             <form className="contactForm">
                 <label>Email</label>
