@@ -17,6 +17,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use('/', router);
 
+// 🔹 Add a route for "/"
+app.get('/', (req, res) => {
+    res.send('Welcome to my API! 🚀');
+});
+
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`✅ Server is running on port ${port}`);
