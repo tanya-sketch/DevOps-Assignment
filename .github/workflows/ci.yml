@@ -47,8 +47,8 @@ jobs:
         with:
           projectBaseDir: backend  # Adjust if needed
           args: >
-            -Dsonar.organization=your-org
-            -Dsonar.projectKey=your-project-key
+            -Dsonar.organization=tanya-sketch
+            -Dsonar.projectKey=tanya-sketch_DevOps-Assignment
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
