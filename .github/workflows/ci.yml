@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Debug Repository Contents
+        run: ls -R  # List all files to check package.json location
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: backend # Change this if package.json is in a different folder
+
+      - name: Run Tests
+        run: npm test
+        working-directory: backend # Change this if needed
+
+      - name: Code Quality Check with SonarQube
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Security Check with Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Upload Errors to Sentry
+        run: |
+          export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+          sentry-cli releases new "v1.0.0"
+          sentry-cli releases finalize "v1.0.0"
+
