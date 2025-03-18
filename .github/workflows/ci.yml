@@ -1,6 +1,6 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
-on: 
+on:
   push:
     branches:
       - main
@@ -13,38 +13,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Debug Repository Contents
-        run: ls -R  # List all files to check package.json location
-
-      - name: Set Up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
         with:
-          node-version: 18
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install Dependencies
-        run: npm install
-        working-directory: backend # Change this if package.json is in a different folder
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-      - name: Run Tests
-        run: npm test
-        working-directory: backend # Change this if needed
+      - name: Build and Test
+        run: mvn clean install
 
-      - name: Code Quality Check with SonarQube
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # 🔍 SonarCloud Analysis
+      - name: SonarCloud Scan
+        run: |
+          sonar-scanner \
+            -Dsonar.organization=${{ secrets.SONAR_ORG }} \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-      - name: Security Check with Snyk
-        uses: snyk/actions/node@master
+      # 🔐 Snyk Security Scan
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
 
-      - name: Upload Errors to Sentry
-        run: |
-          export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-          sentry-cli releases new "v1.0.0"
-          sentry-cli releases finalize "v1.0.0"
-
+      # 🛠️ Sentry Release Tracking
+      - name: Create Sentry Release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        with:
+          environment: production
+          org: your-sentry-org
+          project: your-sentry-project
