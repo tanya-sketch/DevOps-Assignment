@@ -1,3 +1,5 @@
+require('./instrument.js'); 
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -22,10 +24,19 @@ app.get('/', (req, res) => {
     res.send('Welcome to my API! 🚀');
 });
 
+app.get('/error', function mainHandler(req, res) {
+    throw new Error('This is a test error for Sentry!');
+});
+
+// Sentry error handler should be last
+const Sentry = require('@sentry/node');
+app.use(Sentry.Handlers.errorHandler());
+
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`✅ Server is running on port ${port}`);
 });
+
 
 
 
