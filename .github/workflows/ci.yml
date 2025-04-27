@@ -44,14 +44,14 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         with:
-          projectBaseDir: backend  # Ensure only the backend directory is analyzed
+          projectBaseDir: backend
           args: >
             -Dsonar.organization=tanya-sketch
             -Dsonar.projectKey=tanya-sketch_DevOps-Assignment
-            -Dsonar.sources=backend  
-            -Dsonar.tests=backend/tests  
-            -Dsonar.exclusions=**/*.test.js 
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov-report/lcov-report.json 
+            -Dsonar.sources=.
+            -Dsonar.tests=tests
+            -Dsonar.exclusions=tests/**/*.js
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
