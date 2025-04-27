@@ -48,23 +48,13 @@ jobs:
           args: >
             -Dsonar.organization=tanya-sketch
             -Dsonar.projectKey=tanya-sketch_DevOps-Assignment
-            -Dsonar.sources=backend  # Set to analyze only the backend directory
-            -Dsonar.tests=backend/tests  # Set to analyze only the test directory within backend
-            -Dsonar.exclusions=**/*.test.js  # Exclude test files from production analysis
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov-report/lcov-report.json  # Use Jest's LCOV coverage report
+            -Dsonar.sources=backend  
+            -Dsonar.tests=backend/tests  
+            -Dsonar.exclusions=**/*.test.js 
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov-report/lcov-report.json 
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      # SonarQube Analysis (Optional)
-      # - name: SonarCloud Scan
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   with:
-      #     projectBaseDir: backend  # Adjust if needed
-      #     args: >
-      #       -Dsonar.organization=tanya-sketch
-      #       -Dsonar.projectKey=tanya-sketch_DevOps-Assignment
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # Snyk Security Scan
       - name: Run Snyk to check for vulnerabilities
