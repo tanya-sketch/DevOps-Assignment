@@ -56,10 +56,16 @@ jobs:
 
 
       # Snyk Security Scan
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        with:
-          args: monitor
+      # - name: Run Snyk to check for vulnerabilities
+      #   uses: snyk/actions/node@master
+      #   with:
+      #     args: monitor
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk on backend
+        working-directory: backend
+        run: npx snyk test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
