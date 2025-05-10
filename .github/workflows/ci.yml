@@ -75,9 +75,9 @@ jobs:
         with:
           environment: production
           version: ${{ github.sha }}
-          projects: your-sentry-project
+          projects: node
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: your-org
-          SENTRY_PROJECT: your-sentry-project
+          SENTRY_ORG: tanya-jc
+          SENTRY_PROJECT: node
 
