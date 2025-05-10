@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Change based on your project
+          node-version: 18  
 
       - name: Install frontend dependencies
         run: |
@@ -40,28 +40,6 @@ jobs:
         run: |
           cd backend
           npm test
-
-      # - name: SonarCloud Scan
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   with:
-      #     projectBaseDir: backend
-      #     args: >
-      #       -Dsonar.organization=tanya-sketch
-      #       -Dsonar.projectKey=tanya-sketch_DevOps-Assignment
-      #       -Dsonar.sources=.
-      #       -Dsonar.exclusions=tests/**/*.js
-      #       -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
-      # Snyk Security Scan
-      # - name: Run Snyk to check for vulnerabilities
-      #   uses: snyk/actions/node@master
-      #   with:
-      #     args: monitor
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk on backend
         working-directory: backend
