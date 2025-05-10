@@ -1,2 +1,2 @@
 # DevOps-Assignment
-Project consists of a react + node e-commerce website
+Project consists of a react + node e-commerce website ..
