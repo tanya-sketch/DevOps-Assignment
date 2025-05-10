@@ -8,8 +8,8 @@ router.post('/contact/:a', (req, res) => {
     const { email, website, message } = req.body;
     const action = req.params.a;
 
-    if (action === "send" {
-        contacts.push({ email, website, message, entryDate: new Date() }) //
+    if (action === "send") {
+        contacts.push({ email, website, message, entryDate: new Date() }); //
         res.send('Message sent. Thank you.');
     } else {
         res.send('Invalid Request');
